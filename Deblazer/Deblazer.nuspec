@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Deblazer</id>
+    <version>2.0.0</version>
+    <title>Deblazer</title>
+    <authors>Digitec Galaxus AG</authors>
+    <owners>Digitec Galaxus AG</owners>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>-->
+    <!--<projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>-->
+    <iconUrl>http://digitec.ch/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A small ORM Framework develop around 2010</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright Digitec Galaxus AG 2017</copyright>
+    <tags>Deblazer ORM Digitec Galaxus Sql</tags>
+  </metadata>
+</package>

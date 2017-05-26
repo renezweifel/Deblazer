@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deblazer", "Deblazer\Deblazer.csproj", "{B55208B9-7750-48C1-A19E-F0ECA464B562}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deblazer.Test", "Deblazer.Test\Deblazer.Test.csproj", "{1ED4A57C-462B-408A-BA39-7C8FD580B534}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B55208B9-7750-48C1-A19E-F0ECA464B562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B55208B9-7750-48C1-A19E-F0ECA464B562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B55208B9-7750-48C1-A19E-F0ECA464B562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B55208B9-7750-48C1-A19E-F0ECA464B562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ED4A57C-462B-408A-BA39-7C8FD580B534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED4A57C-462B-408A-BA39-7C8FD580B534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED4A57C-462B-408A-BA39-7C8FD580B534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED4A57C-462B-408A-BA39-7C8FD580B534}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,6 @@
 # Deblazer ORM
+![Build Status](https://tkae.visualstudio.com/_apis/public/build/definitions/600337e5-0517-476a-aa93-a7831c02c8cc/5/badge)
+
 Deblazer is the C# ORM written and used by [Digitec Galaxus](https://github.com/DigitecGalaxus) it has query language similiar to LINQ.
 
 ## Getting Started
@@ -16,7 +18,3 @@ var top10people = db.Application_Peoples()
 
 ## Development
 Deblazer is written in C# and targets the .NET 4.6.1 Framework
-
-
-## Continuous Integration
-Badges
