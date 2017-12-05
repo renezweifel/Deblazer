@@ -1,6 +1,7 @@
 # Deblazer ORM
-![Build Status](https://tkae.visualstudio.com/_apis/public/build/definitions/600337e5-0517-476a-aa93-a7831c02c8cc/5/badge)
-[![Build Status](https://travis-ci.org/DigitecGalaxus/Deblazer.svg?branch=master)](https://travis-ci.org/DigitecGalaxus/Deblazer)
+## PreRelease version for NetStandard2.0
+At the moment no prerelease build on nuget.org and no tooling for usage.
+Build and tooling follow later, when version more stable and tested
 
 Deblazer is the C# ORM written and used by [Digitec Galaxus](https://github.com/DigitecGalaxus) it has query language similiar to LINQ.
 

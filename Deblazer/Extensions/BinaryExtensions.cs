@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Data.Linq;
+using System.Data;
 using System.Linq;
 
 namespace Dg.Deblazer.Extensions
 {
     public static class BinaryExtensions
     {
-        public static ulong RowVersionToUInt64(this Binary binary)
+        public static ulong RowVersionToUInt64(this byte[] binary)
         {
-            return RowVersionBytesToUInt64(binary.ToArray());
+            return RowVersionBytesToUInt64(binary);
         }
 
         public static ulong RowVersionBytesToUInt64(byte[] bytes)
@@ -21,9 +21,9 @@ namespace Dg.Deblazer.Extensions
             return BitConverter.ToUInt64(bytes.Reverse().ToArray(), 0);
         }
 
-        public static Binary ToBinary(this ulong x)
+        public static byte[] ToBinary(this ulong x)
         {
-            return new Binary(new byte[] {
+            return new byte[] {
                 (byte)((x >> 56) & 0xFF),
                 (byte)((x >> 48) & 0xFF),
                 (byte)((x >> 40) & 0xFF),
@@ -32,7 +32,7 @@ namespace Dg.Deblazer.Extensions
                 (byte)((x >> 16) & 0xFF),
                 (byte)((x >>  8) & 0xFF),
                 (byte)((x >>  0) & 0xFF)
-            });
+            };
         }
     }
 }

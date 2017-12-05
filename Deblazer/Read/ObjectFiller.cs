@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Linq;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Linq.Expressions;
@@ -91,7 +90,7 @@ namespace Dg.Deblazer.Read
                     loadExpression = Expression.Call(argument, getValueMethod, indexExpression);
                     loadExpression = Expression.Call(DynamicLoadHelpers.LoadXElement, loadExpression);
                 }
-                else if (parameterType == typeof(Binary))
+                else if (parameterType == typeof(byte[]))
                 {
                     loadExpression = Expression.Call(DynamicLoadHelpers.GetBinaryMethodInfo, argument, indexExpression);
                 }
@@ -242,7 +241,7 @@ namespace Dg.Deblazer.Read
                             {
                                 getValue = Expression.Call(null, DynamicLoadHelpers.LoadXElement, getValue);
                             }
-                            else if (propertyInfo.PropertyType == typeof(Binary))
+                            else if (propertyInfo.PropertyType == typeof(byte[]))
                             {
                                 // Need this to convert byte[] to Binary
                                 getValue = Expression.Call(null, DynamicLoadHelpers.GetBinaryMethodInfo, source, Expression.Constant(i));

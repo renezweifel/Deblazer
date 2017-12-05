@@ -1,9 +1,9 @@
-﻿using System.Data.Linq;
+﻿using System.Data;
 
 namespace Dg.Deblazer.Api
 {
     public interface INotifyEntityInsertOrUpdate
     {
-        Binary RowVersion { get; }
+        byte[] RowVersion { get; }
     }
 }

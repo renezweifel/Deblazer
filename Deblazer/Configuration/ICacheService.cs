@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Data.Linq;
 using Dg.Deblazer.Cache;
+using System.Data;
 
 namespace Dg.Deblazer.Configuration
 {
     public interface ICacheService
     {
         DbEntityRefCached<TEntity> GetDbEntityRefCached<TEntity>(long entityId) where TEntity : DbEntity;
-        bool IsInitialUpdate(Binary lastRowVersion);
+        bool IsInitialUpdate(byte[] lastRowVersion);
 
         ICachedEntityList<TEntity> GetCachedEntities<TSource, TEntity>(
             Func<long?> getForeignKey)

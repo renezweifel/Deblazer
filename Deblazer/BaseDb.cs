@@ -35,12 +35,7 @@ namespace Dg.Deblazer
 
         protected BaseDb(IDbSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            this.settings = settings;
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
             loadedEntityCache = new LoadedEntityCache(Settings);
 
             OnDbInitialized?.Invoke(this);

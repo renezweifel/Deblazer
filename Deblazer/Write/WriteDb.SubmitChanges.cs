@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
-using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -194,7 +193,7 @@ Following Namespaces were used: {Environment.NewLine}
                     //}
 
                     // The same entity (same type and Id, but different reference my be submitted several times during a submit)
-                    var newRowVersions = new Dictionary<(Type typeid, long id), Binary>();
+                    var newRowVersions = new Dictionary<(Type typeid, long id), byte[]>();
 
                     var transactionStopwatch = Stopwatch.StartNew();
                     using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, transactionOptions))
@@ -410,7 +409,7 @@ Following Namespaces were used: {Environment.NewLine}
 
                     if (newRowVersions.Count > 0)
                     {
-                        Binary newRowVersion;
+                        byte[] newRowVersion;
                         foreach (var updatedEntity in allUpdates.Union(allInserts).OfType<ICheckConcurrentUpdates>())
                         {
                             if (newRowVersions.TryGetValue((updatedEntity.GetType(), updatedEntity.Id), out newRowVersion))
@@ -578,7 +577,7 @@ Following Namespaces were used: {Environment.NewLine}
             SqlConnection sqlConnection,
             UpdateSetVisitor updateSetVisitor,
             Dictionary<DbEntity, DbEntity> logs,
-            Dictionary<(Type typeid, long id), Binary> newRowVersions,
+            Dictionary<(Type typeid, long id), byte[]> newRowVersions,
             bool setDefaultValues)
         {
             if (WriteDbSettings.UseSqlBulkCopyForUpdates_Experimental)
@@ -595,7 +594,7 @@ Following Namespaces were used: {Environment.NewLine}
             SqlConnection sqlConnection,
             UpdateSetVisitor updateSetVisitor,
             Dictionary<DbEntity, DbEntity> logs,
-            Dictionary<(Type typeid, long id), Binary> newRowVersions,
+            Dictionary<(Type typeid, long id), byte[]> newRowVersions,
             bool setDefaultValues)
         {
             SetDefaultUpdateValues(updateSetVisitor, setDefaultValues);
@@ -636,7 +635,7 @@ Following Namespaces were used: {Environment.NewLine}
             SqlConnection sqlConnection,
             UpdateSetVisitor updateSetVisitor,
             Dictionary<DbEntity, DbEntity> logs,
-            Dictionary<(Type typeid, long id), Binary> newRowVersions,
+            Dictionary<(Type typeid, long id), byte[]> newRowVersions,
             bool setDefaultValues)
         {
             SetDefaultUpdateValues(updateSetVisitor, setDefaultValues);
@@ -661,7 +660,7 @@ Following Namespaces were used: {Environment.NewLine}
             return updateSetVisitor.UpdateSet;
         }
 
-        private void UpdateRowVersions(Dictionary<(Type typeid, long id), Binary> newRowVersions, List<ICheckConcurrentUpdates> checkForConcurrentChangesEntities)
+        private void UpdateRowVersions(Dictionary<(Type typeid, long id), byte[]> newRowVersions, List<ICheckConcurrentUpdates> checkForConcurrentChangesEntities)
         {
             if (checkForConcurrentChangesEntities.Count > 0)
             {
@@ -1002,24 +1001,24 @@ DROP TABLE #{type.Name}");
                 var insertBatchCommand = new DbSqlCommand(insertBatchCommandText.ToString(), sqlConnection);
                 insertBatchCommand.CommandTimeout = Math.Max((int)transactionTimeout.TotalSeconds, (int)Settings.CommandTimeout.TotalSeconds);
 
-                var entityIdsAndRowVersionsByTableName = new Dictionary<string, List<Tuple<long, Binary>>>();
+                var entityIdsAndRowVersionsByTableName = new Dictionary<string, List<Tuple<long, byte[]>>>();
                 using (var sqlDataReader = insertBatchCommand.ExecuteReader(CommandBehavior.SequentialAccess))
                 {
                     string currentTableName = null;
-                    List<Tuple<long, Binary>> entityIds = null;
+                    List<Tuple<long, byte[]>> entityIds = null;
                     while (sqlDataReader.Read())
                     {
                         var entityId = Convert.ToInt64(sqlDataReader.GetValue(0));
                         var tableName = sqlDataReader.GetString(1);
-                        Binary rowVersion = null;
+                        byte[] rowVersion = null;
                         if (!sqlDataReader.IsDBNull(2))
                         {
-                            rowVersion = new Binary((byte[])sqlDataReader.GetValue(2));
+                            rowVersion = (byte[])sqlDataReader.GetValue(2);
                         }
 
                         if (currentTableName == null || currentTableName != tableName)
                         {
-                            entityIds = new List<Tuple<long, Binary>>();
+                            entityIds = new List<Tuple<long, byte[]>>();
                             entityIdsAndRowVersionsByTableName.Add(tableName, entityIds);
                             currentTableName = tableName;
                         }
@@ -1155,7 +1154,7 @@ DROP TABLE #{type.Name}");
 
         private void CheckForConcurrentChanges(
             IReadOnlyList<ICheckConcurrentUpdates> checkConcurrentUpdateEntities,
-            Dictionary<(Type, long), Binary> newRowVersions)
+            Dictionary<(Type, long), byte[]> newRowVersions)
         {
             const string ExceptionEntityFormat = "{0} - {1}\r\n";
 
@@ -1176,7 +1175,7 @@ DROP TABLE #{type.Name}");
             {
                 foreach (var entity in entitiesToCheckByTableName)
                 {
-                    Binary entityRowVersion;
+                    byte[] entityRowVersion;
                     if (!newRowVersions.TryGetValue((entity.GetType(), entity.Id), out entityRowVersion))
                     {
                         entityRowVersion = entity.RowVersion;
@@ -1218,7 +1217,7 @@ DROP TABLE #{type.Name}");
 
             public int Id { get; set; }
 
-            public Binary RowVersion { get; set; }
+            public byte[] RowVersion { get; set; }
         }
 
         private IReadOnlyList<TableNameRowVersionAndId> GetRowVersionInfos(ILookup<string, ICheckConcurrentUpdates> tableNamesAndIds)

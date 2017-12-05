@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using Dg.Deblazer.Extensions;
@@ -22,9 +21,9 @@ namespace Dg.Deblazer.SqlUtils
             }
             else
             {
-                if (parameter is Binary)
+                if (parameter is byte[])
                 {
-                    return new SqlParameter(paramName, ((Binary)parameter).ToArray());
+                    return new SqlParameter(paramName, ((byte[])parameter).ToArray());
                 }
                 else if (parameter is Date?)
                 {

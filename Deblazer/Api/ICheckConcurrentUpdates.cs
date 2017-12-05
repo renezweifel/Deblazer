@@ -1,10 +1,10 @@
-using System.Data.Linq;
+using System.Data;
 
 namespace Dg.Deblazer.Api
 {
     public interface ICheckConcurrentUpdates : IId
     {
-        Binary RowVersion
+        byte[] RowVersion
         {
             get;
             set;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
-using System.Data.Linq;
 using System.Data.SqlClient;
 using Dg.Deblazer.Extensions;
 using JetBrains.Annotations;
@@ -19,8 +18,7 @@ namespace Dg.Deblazer.Read
             typeof(DateTimeOffset),
             typeof(TimeSpan),
             typeof(string),
-            typeof(decimal),
-            typeof(Binary)
+            typeof(decimal)
         );
 
         private static void AddFiller<TPrimitiveType>(Func<IDataRecord, int, TPrimitiveType> f)
@@ -75,22 +73,22 @@ namespace Dg.Deblazer.Read
             return (TType)fillMethod(reader, index);
         }
 
-        public static Binary GetRowVersion(IDataRecord reader, int index)
+        public static byte[] GetRowVersion(IDataRecord reader, int index)
         {
             var obj = reader.GetValue(index);
-            return new Binary((byte[])obj);
+            return (byte[])obj;
         }
         
-        public static Binary GetBinary(IDataRecord reader, int index)
+        public static byte[] GetBinary(IDataRecord reader, int index)
         {
             if (reader.IsDBNull(index))
             {
-                return default(Binary);
+                return default(byte[]);
             }
             
             var obj = reader.GetValue(index);
             
-            return new Binary((byte[])obj);
+            return (byte[])obj;
         }
 
         public static int GetInt32(IDataRecord reader, int index)

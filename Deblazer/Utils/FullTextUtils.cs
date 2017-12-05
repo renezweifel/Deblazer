@@ -9,12 +9,12 @@ namespace Dg.Deblazer.Utils
         private const int MAX_TERM_LEN = 128;
         private const bool SKIP_INVALID = true;
 
-        public static string GetFullTextStartsWithQuery([SqlFacet(MaxSize = -1)] string query)
+        public static string GetFullTextStartsWithQuery(string query)
         {
             return string.Join(" AND ", Extract(query).Select(f => $"\"{f}*\""));
         }
 
-        public static string GetFullTextContainsExactWordWithQuery([SqlFacet(MaxSize = -1)] string query)
+        public static string GetFullTextContainsExactWordWithQuery(string query)
         {
             return string.Join(" AND ", Extract(query).Select(e => $"'{e}'"));
         }

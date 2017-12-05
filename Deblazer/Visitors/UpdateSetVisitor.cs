@@ -8,7 +8,6 @@ using Dg.Deblazer.SqlUtils;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -107,7 +106,7 @@ namespace Dg.Deblazer.Visitors
             get { return updatedValuesByTypeAndId.SelectMany(e => e.Value.UpdateSet).ToList(); }
         }
 
-        internal List<UpdateCommandWithAffectedEntities> GetCommands(SqlConnection sqlConnection, Dictionary<(Type typeid, long id), Binary> rowVersionsByEntityTypeAndId)
+        internal List<UpdateCommandWithAffectedEntities> GetCommands(SqlConnection sqlConnection, Dictionary<(Type typeid, long id), byte[]> rowVersionsByEntityTypeAndId)
         {
             var sqlCommands = new List<UpdateCommandWithAffectedEntities>();
             foreach (var updatedValuesRecord in updatedValuesByTypeAndId)
@@ -138,7 +137,7 @@ IF (@@ROWCOUNT = 0 AND @@ERROR = 0)
       declare @err as nvarchar(110) = CONCAT('Cannot update {fullTableName} (', @id, ') because of a concurrent interfering update');
       THROW 33219281, @err, 1
     END";
-                            Binary currentRowVersion = GetRowVersion(rowVersionsByEntityTypeAndId, entityType, entityId, ((ICheckConcurrentUpdates)updateSet.First()));
+                            byte[] currentRowVersion = GetRowVersion(rowVersionsByEntityTypeAndId, entityType, entityId, ((ICheckConcurrentUpdates)updateSet.First()));
 
                             sqlCommand.Parameters.AddWithValue("@rowVersion", currentRowVersion.ToArray());
                         }
@@ -157,9 +156,9 @@ IF (@@ROWCOUNT = 0 AND @@ERROR = 0)
             return sqlCommands;
         }
 
-        private static Binary GetRowVersion(Dictionary<(Type typeid, long id), Binary> rowVersionsByEntityTypeAndId, Type entityType, long entityId, ICheckConcurrentUpdates dbEntity)
+        private static byte[] GetRowVersion(Dictionary<(Type typeid, long id), byte[]> rowVersionsByEntityTypeAndId, Type entityType, long entityId, ICheckConcurrentUpdates dbEntity)
         {
-            Binary currentRowVersion;
+            byte[] currentRowVersion;
             if (!rowVersionsByEntityTypeAndId.TryGetValue((entityType, entityId), out currentRowVersion))
             {
                 currentRowVersion = dbEntity.RowVersion;
@@ -182,7 +181,7 @@ IF (@@ROWCOUNT = 0 AND @@ERROR = 0)
 
         public void UpdateEntitiesUsingSqlBulkCopy(SqlConnection sqlConnection,
             int commandTimeoutSeconds,
-            Dictionary<(Type, long), Binary> rowVersionsByEntityTypeAndId)
+            Dictionary<(Type, long), byte[]> rowVersionsByEntityTypeAndId)
         {
             var updatedValuesByTypeAndColumnsToUpdate = updatedValuesByTypeAndId.GroupBy(
                 v => new EntityIdAndUpdatedColumns(v.Key.Item1, string.Join(",", v.Value.UpdatedValuesByColumnName.Keys.OrderBy(cn => cn))));
@@ -309,7 +308,7 @@ DROP TABLE #{0};
                             while (sqlDataReader.Read())
                             {
                                 var entityId = Convert.ToInt32(sqlDataReader.GetValue(0));
-                                Binary rowVersion = new Binary((byte[])sqlDataReader.GetValue(1));
+                                byte[] rowVersion = (byte[])sqlDataReader.GetValue(1);
 
                                 rowVersionsByEntityTypeAndId[(entityType, entityId)] = rowVersion;
                             }

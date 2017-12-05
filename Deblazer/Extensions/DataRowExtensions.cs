@@ -1,6 +1,5 @@
 using System;
 using System.Data;
-using System.Data.Linq;
 
 namespace Dg.Deblazer.Extensions
 {
@@ -10,10 +9,9 @@ namespace Dg.Deblazer.Extensions
         {
             Type type = GetValueType<T>();
             // We need to convert this here, otherwise it would crash when doing MaxDb(RowVersion) because the db layer will try to do a Binary for RowVersion out of a byte[].
-            if (obj is byte[] && typeof(Binary) == typeof(T))
+            if (obj is byte[] && typeof(byte[]) == typeof(T))
             {
-                var binary = new Binary((byte[])obj);
-                return (T)(object)binary;
+                return (T)obj;
             }
             if(obj is DateTime && typeof(Date) == typeof(T))
             {

@@ -1,10 +1,11 @@
-using System.Data.Linq;
+
+using System.Data;
 
 namespace Dg.Deblazer.Cache
 {
     public interface IIsCached : IId
     {
-        Binary RowVersion
+        byte[] RowVersion
         {
             get;
             set;

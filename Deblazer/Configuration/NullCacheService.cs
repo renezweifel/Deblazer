@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Linq;
+using System.Data;
 using Dg.Deblazer.Cache;
 
 namespace Dg.Deblazer.Configuration
@@ -25,7 +25,7 @@ namespace Dg.Deblazer.Configuration
             throw new NotSupportedException("Cache is not supported with the current " + nameof(DbConfiguration));
         }
 
-        public bool IsInitialUpdate(Binary lastRowVersion)
+        public bool IsInitialUpdate(byte[] lastRowVersion)
         {
             return false;
         }

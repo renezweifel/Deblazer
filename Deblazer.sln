@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deblazer", "Deblazer\Deblazer.csproj", "{B55208B9-7750-48C1-A19E-F0ECA464B562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deblazer", "Deblazer\Deblazer.csproj", "{B55208B9-7750-48C1-A19E-F0ECA464B562}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deblazer.Test", "Deblazer.Test\Deblazer.Test.csproj", "{1ED4A57C-462B-408A-BA39-7C8FD580B534}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{682EFE41-0979-49D5-B048-4AADD2BDF6EA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D4F51DB-3ACF-4D15-A94E-29BF1767BE75}
 	EndGlobalSection
 EndGlobal

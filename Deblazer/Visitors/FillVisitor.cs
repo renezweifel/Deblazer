@@ -1,5 +1,4 @@
 using System;
-using System.Data.Linq;
 using System.Data.SqlClient;
 using Dg.Deblazer.Internal;
 using Dg.Deblazer.Read;
@@ -28,12 +27,12 @@ namespace Dg.Deblazer.Visitors
             this.objectFillerFactory = objectFillerFactory;
         }
 
-        public Binary GetRowVersion()
+        public byte[] GetRowVersion()
         {
             return PrimitiveTypeFiller.GetBinary(reader, index++);
         }
 
-        public Binary GetBinary()
+        public byte[] GetBinary()
         {
             if (!Db.Settings.AllowLoadingBinaryData)
             {

@@ -5,8 +5,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -253,7 +252,7 @@ namespace Dg.Deblazer.Utils
                     }
                     else if (propertyInfo.CanWrite &&
                              (propertyInfo.PropertyType == typeof(string) || propertyInfo.PropertyType.IsValueType ||
-                              propertyInfo.PropertyType == typeof(Binary)))
+                              propertyInfo.PropertyType == typeof(byte[])))
                     {
                         propertyInfo.SetValue(copyTo, propertyInfo.GetValue(copyFrom, null), null);
                     }
@@ -312,7 +311,7 @@ namespace Dg.Deblazer.Utils
                     else if (propertyInfo.CanWrite &&
                              (propertyInfo.PropertyType == typeof(string)
                               || propertyInfo.PropertyType.IsValueType
-                              || propertyInfo.PropertyType == typeof(Binary)))
+                              || propertyInfo.PropertyType == typeof(byte[])))
                     {
                         propertyInfo.SetValue(copyTo, propertyInfo.GetValue(copyFrom, null), null);
                     }
